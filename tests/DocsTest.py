@@ -42,29 +42,29 @@ class TestDocs1(unittest.TestCase):
         expected = DOC % '''<p>
       hello
     </p>'''
-        doc, err = tidy_document(h)
+        doc, err = tidy_document(h, {'output_xhtml':1})
         self.assertEqual(doc, expected)
         
     def test_doc_with_incomplete_img_tag(self):
         h = "<img src='foo'>"
         expected = DOC % '''<img src='foo' alt="" />'''
-        doc, err = tidy_document(h)
+        doc, err = tidy_document(h, {'output_xhtml':1})
         self.assertEqual(doc, expected)
         
     def test_doc_with_entity(self):
         h = "&eacute;"
         expected = DOC % "&eacute;"
-        doc, err = tidy_document(h)
+        doc, err = tidy_document(h, {'output_xhtml':1})
         self.assertEqual(doc, expected)
         
         expected = DOC % "&#233;"
-        doc, err = tidy_document(h, {'numeric-entities':1})
+        doc, err = tidy_document(h, {'numeric-entities':1, 'output_xhtml':1})
         self.assertEqual(doc, expected)
     
     def test_doc_with_unicode(self):
         h = u"unicode string ß"
         expected = unicode(DOC, 'utf-8') % h
-        doc, err = tidy_document(h)
+        doc, err = tidy_document(h, {'output_xhtml':1})
         self.assertEqual(doc, expected)
         
     def test_doc_with_unicode_subclass(self):
@@ -73,7 +73,7 @@ class TestDocs1(unittest.TestCase):
         
         h = MyUnicode(u"unicode string ß")
         expected = unicode(DOC, 'utf-8') % h
-        doc, err = tidy_document(h)
+        doc, err = tidy_document(h, {'output_xhtml':1})
         self.assertEqual(doc, expected)
         
     

@@ -36,7 +36,7 @@ class TestFrags1(unittest.TestCase):
     def test_frag_with_incomplete_img_tag(self):
         h = "<img src='foo'>"
         expected = '''<img src='foo' alt="" />'''
-        doc, err = tidy_fragment(h)
+        doc, err = tidy_fragment(h, {'output_xhtml':1})
         self.assertEqual(doc, expected)
         
     def test_frag_with_entity(self):

@@ -21,6 +21,11 @@
 import unittest
 from tidylib import tidy_document, tidy_fragment, sink
 
+try:
+    xrange = xrange
+except:
+    xrange = range
+
 class TestSinkMemory(unittest.TestCase):
     """ Make sure error sinks are cleared properly """
     

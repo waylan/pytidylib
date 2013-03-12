@@ -19,8 +19,18 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+
+from __future__ import unicode_literals
 import unittest
 from tidylib import tidy_document
+import sys
+
+PY3 = sys.version_info[0] == 3
+
+if PY3:
+    utype = str
+else:
+    utype = unicode
 
 DOC = '''<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -54,25 +64,25 @@ class TestDocs1(unittest.TestCase):
     def test_doc_with_entity(self):
         h = "&eacute;"
         expected = DOC % "&eacute;"
-        doc, err = tidy_document(h, {'output_xhtml':1})
+        doc, err = tidy_document(h, {'preserve-entities':1, 'output_xhtml':1})
         self.assertEqual(doc, expected)
         
         expected = DOC % "&#233;"
-        doc, err = tidy_document(h, {'numeric-entities':1, 'output_xhtml':1})
+        doc, err = tidy_document(h, {'preserve-entities':1, 'numeric-entities':1, 'output_xhtml':1})
         self.assertEqual(doc, expected)
     
     def test_doc_with_unicode(self):
-        h = u"unicode string ß"
-        expected = unicode(DOC, 'utf-8') % h
+        h = "unicode string ß"
+        expected = DOC % h
         doc, err = tidy_document(h, {'output_xhtml':1})
         self.assertEqual(doc, expected)
         
     def test_doc_with_unicode_subclass(self):
-        class MyUnicode(unicode):
+        class MyUnicode(utype):
             pass
         
-        h = MyUnicode(u"unicode string ß")
-        expected = unicode(DOC, 'utf-8') % h
+        h = MyUnicode("unicode string ß")
+        expected = DOC % h
         doc, err = tidy_document(h, {'output_xhtml':1})
         self.assertEqual(doc, expected)
         

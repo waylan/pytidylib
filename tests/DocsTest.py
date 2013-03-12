@@ -66,9 +66,11 @@ class TestDocs1(unittest.TestCase):
         expected = DOC % "&eacute;"
         doc, err = tidy_document(h, {'preserve-entities':1, 'output_xhtml':1})
         self.assertEqual(doc, expected)
-        
+    
+    def test_doc_with_numeric_entity(self):
+        h = "&#233;"    
         expected = DOC % "&#233;"
-        doc, err = tidy_document(h, {'preserve-entities':1, 'numeric-entities':1, 'output_xhtml':1})
+        doc, err = tidy_document(h, {'preserve-entities':1, 'output_xhtml':1})
         self.assertEqual(doc, expected)
     
     def test_doc_with_unicode(self):

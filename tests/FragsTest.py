@@ -53,9 +53,11 @@ class TestFrags1(unittest.TestCase):
         expected = "&eacute;"
         doc, err = tidy_fragment(h, {'preserve-entities':1})
         self.assertEqual(doc, expected)
-        
+       
+    def test_frag_with_numeric_entity(self):
+        h = "&#233;" 
         expected = "&#233;"
-        doc, err = tidy_fragment(h, {'preserve-entities':1, 'numeric-entities':1})
+        doc, err = tidy_fragment(h, {'preserve-entities':1})
         self.assertEqual(doc, expected)
     
     def test_frag_with_unicode(self):
